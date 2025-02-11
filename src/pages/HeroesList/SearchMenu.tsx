@@ -11,7 +11,7 @@ type SearchMenuProps = {
 
 const SearchMenu = ({ selectedLetter, onSelectLetter }: SearchMenuProps) => {
   return (
-    <div>
+    <div className="flex justify-center gap-2 m-2">
       {alphabet.map((letter) => (
         <button
           key={letter}
