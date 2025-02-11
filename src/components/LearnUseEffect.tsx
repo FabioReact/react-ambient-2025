@@ -1,21 +1,27 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 const LearnUseEffect = () => {
   const [darkMode, setDarkMode] = useState(false);
+  const isFirstRender = useRef(true)
 
   useEffect(() => {
-    console.log('Inside useEffect - Empty dependency array');
+    console.log('Inside useEffect - Empty dependency array'); // Après le premier chargement de page
     return () => {
-      console.log('Return useEffect - Empty dependency array');
+      console.log('Return useEffect - Empty dependency array'); // Avant que le composant ne disparaisse de l'UI
     };
   }, []);
 
   useEffect(() => {
-    console.log('Inside useEffect - darkMode in the dependency array');
+    console.log('Inside useEffect - darkMode in the dependency array'); // Après le premier chargement de page, et après chaque mise à jour de "darkMode"
+    if (!isFirstRender) {
+      console.log('Uniquement lors des mise à jour');
+    }
+    isFirstRender.current = false;
     return () => {
-      console.log('Return useEffect - darkMode in the dependency array');
+      console.log('Return useEffect - darkMode in the dependency array'); // Avant que le composant ne disparaisse de l'UI, et avant que darkMode ne soit mis à jour
     };
   }, [darkMode]);
+
 
   console.log('Outside useEffect');
   // Pas d'effet de bord donc pas d'appel HTTP
