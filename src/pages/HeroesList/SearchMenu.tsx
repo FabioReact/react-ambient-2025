@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { getHeroesByFirstLetter } from '../../api/heroes';
 import { Hero } from '../../types/hero';
 
@@ -10,17 +10,30 @@ for (let i = 65; i <= 90; i++) {
 
 type SearchMenuProps = {
   updateHeroes: Dispatch<SetStateAction<Hero[]>>;
+  setLoading: Dispatch<SetStateAction<boolean>>;
 };
 
-const SearchMenu = ({ updateHeroes }: SearchMenuProps) => {
+const SearchMenu = ({ updateHeroes, setLoading }: SearchMenuProps) => {
   const [selectedLetter, setSelectedLetter] = useState('A');
 
-  const selectLetter = (letter: string) => {
+  useEffect(() => {
+    getHeroesByFirstLetter(selectedLetter).then((data) => {
+      updateHeroes(data);
+      // stop loading
+      setLoading(false);
+    });
+  }, []);
+
+  const onSelectLetter = (letter: string) => {
     setSelectedLetter(letter);
+    setLoading(true);
     getHeroesByFirstLetter(letter).then((data) => {
-        updateHeroes(data);
+      updateHeroes(data);
+      // stop loading
+      setLoading(false);
     });
   };
+
   return (
     <div>
       {alphabet.map((letter) => (
@@ -29,7 +42,7 @@ const SearchMenu = ({ updateHeroes }: SearchMenuProps) => {
           style={{
             color: selectedLetter === letter ? 'red' : 'black',
           }}
-          onClick={() => selectLetter(letter)}
+          onClick={() => onSelectLetter(letter)}
         >
           {letter}
         </button>
