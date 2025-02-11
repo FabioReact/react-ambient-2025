@@ -11,7 +11,7 @@ function HeroesList() {
       <h1>Hello World</h1>
       <section>
         <SearchMenu updateHeroes={setHeroes} />
-        <div>
+        <div className='flex flex-wrap justify-center gap-6'>
           {heroes.map((hero) => (
             <HeroCard hero={hero} key={hero.id} />
           ))}
