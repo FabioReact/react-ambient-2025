@@ -5,9 +5,10 @@ import HeroCard from '../../components/HeroCard';
 
 type SelectHeroProps = {
   label: string;
+  onSelectHero: (data?: any) => void;
 };
 
-const SelectHero = ({ label }: SelectHeroProps) => {
+const SelectHero = ({ label, onSelectHero }: SelectHeroProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [heroes, setHeroes] = useState<Hero[] | null>(null);
   const [selected, setSelected] = useState<Hero | null>(null);
@@ -17,6 +18,11 @@ const SelectHero = ({ label }: SelectHeroProps) => {
     const data = await getHeroesByName(inputRef.current!.value);
     setHeroes(data);
   };
+
+  const onClickHandler = (hero: Hero) => {
+    setSelected(hero);
+    onSelectHero(hero);
+  }
 
   const onResetHandler = () => {
     setHeroes(null);
@@ -40,7 +46,7 @@ const SelectHero = ({ label }: SelectHeroProps) => {
             {heroes?.map((hero) => (
               <button
                 className='border border-black rounded px-2 py-1 hover:bg-gray-200'
-                onClick={() => setSelected(hero)}
+                onClick={() => onClickHandler(hero)}
                 key={hero.id}
               >
                 <span className='text-gray-700'>#{hero.id}</span> - {hero.name}
