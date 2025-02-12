@@ -1,11 +1,5 @@
 {
-  "users": [
-    {
-      "email": "email@email.fr",
-      "password": "$2a$10$3s9TG.TqeUfg6NzwWKBgSOWw7GZZA896gg5EpmW7lLN0Mch1noEoO",
-      "id": 1
-    }
-  ],
+  "users": [],
   "heroes": [
     {
       "id": 1,
