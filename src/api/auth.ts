@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { AuthResponse } from '../types/user';
+import { AuthResponse } from '@/types/user';
 
 const registerUser = async (email: string, password: string): Promise<AuthResponse> => {
   const response = await axios.post('http://localhost:4000/register', {

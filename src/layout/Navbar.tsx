@@ -1,9 +1,11 @@
+import useThemeContext from '@/hooks/useThemeContext';
 import { NavLink, Outlet } from 'react-router';
 
 const Navbar = () => {
+  const { isDarkMode } = useThemeContext()
   return (
-    <>
-      <nav>
+    <div className={ isDarkMode ? 'dark' : ''}>
+      <nav className='dark:bg-gray-950 dark:text-white'>
         <ul className='flex justify-center gap-4'>
           <li>
             <NavLink
@@ -67,8 +69,10 @@ const Navbar = () => {
           </li>
         </ul>
       </nav>
-      <Outlet />
-    </>
+      <main className="dark:bg-gray-950 dark:text-white">
+        <Outlet />
+      </main>
+    </div>
   );
 };
 
