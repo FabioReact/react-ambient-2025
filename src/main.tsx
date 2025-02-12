@@ -1,25 +1,16 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import './index.css';
-import { BrowserRouter, Route, Routes } from "react-router";
-import Home from './pages/Home.tsx';
-import HeroesList from './pages/HeroesList/HeroesList.tsx';
-import Navbar from './layout/Navbar.tsx';
-import Battle from './pages/Battle/Battle.tsx';
-import Register from './pages/Register/Register.tsx';
+import App from './App';
+
+// react-hook-form: Gestion des formulaires
+// react-query: Gestion des requetes (mise en cache)
+// axios: Appel HTTP
+// Zod: Validation de schema (formulaires avec erreurs)
+// react-router: Gestion des routes
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <BrowserRouter>
-      <Routes>
-        <Route element={<Navbar />}>
-          <Route path='/' element={<Home />} />
-          <Route path='/heroes' element={<HeroesList />} />
-          <Route path='/battle' element={<Battle />} />
-          <Route path='/register' element={<Register />} />
-          <Route path='*' element={<p>404: Page not found</p>} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+    <App />
   </StrictMode>,
 );

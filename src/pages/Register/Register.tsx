@@ -2,21 +2,38 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { schema } from './schema';
+import { registerUser } from '../../api/auth';
+import Loader from '../../components/Loader/Loader';
+import { useMutation } from '@tanstack/react-query';
+import { useNavigate } from 'react-router';
+import { useContext } from 'react';
+import AuthContext from '../../context/auth-context';
 
 type Inputs = z.infer<typeof schema>;
 
-// npm install -D json-server-auth
-
-
 const Register = () => {
+  const navigate = useNavigate();
+  const { onAuthenticate } = useContext(AuthContext);
+  const { data, isSuccess, isPending, mutateAsync } = useMutation({
+    mutationFn: (params: { email: string; password: string }) =>
+      registerUser(params.email, params.password),
+    onSuccess: (data) => {
+      onAuthenticate(data.accessToken, data.user.email);
+      navigate('/profile');
+    },
+    onError: () => {
+      console.log('Houston, we have a problem !');
+    },
+  });
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<Inputs>({ resolver: zodResolver(schema) });
 
-  const onSubmit: SubmitHandler<Inputs> = (data) => {
-    console.log(data);
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    mutateAsync({ email: data.email, password: data.password });
   };
 
   return (
@@ -25,7 +42,7 @@ const Register = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <fieldset>
           <label htmlFor='email'>Email</label>
-          <input {...register('email', { required: true })} type='email'  />
+          <input {...register('email', { required: true })} type='email' />
           {errors.email && <p className='text-xs text-red-600'>{errors.email.message}</p>}
         </fieldset>
         <fieldset>
@@ -36,9 +53,13 @@ const Register = () => {
         <fieldset>
           <label htmlFor='password'>Confirm Password</label>
           <input {...register('passwordConfirmation', { required: true })} type='text' />
-          {errors.passwordConfirmation && <p className='text-xs text-red-600'>{errors.passwordConfirmation.message}</p>}
+          {errors.passwordConfirmation && (
+            <p className='text-xs text-red-600'>{errors.passwordConfirmation.message}</p>
+          )}
         </fieldset>
-        <button>Register</button>
+        <button className='button'>Register</button>
+        {isPending && <Loader />}
+        {isSuccess && <pre>{JSON.stringify(data, null, 2)}</pre>}
       </form>
     </section>
   );
