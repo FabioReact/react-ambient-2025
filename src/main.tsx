@@ -6,6 +6,7 @@ import Home from './pages/Home.tsx';
 import HeroesList from './pages/HeroesList/HeroesList.tsx';
 import Navbar from './layout/Navbar.tsx';
 import Battle from './pages/Battle/Battle.tsx';
+import Register from './pages/Register/Register.tsx';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -15,6 +16,7 @@ createRoot(document.getElementById('root')!).render(
           <Route path='/' element={<Home />} />
           <Route path='/heroes' element={<HeroesList />} />
           <Route path='/battle' element={<Battle />} />
+          <Route path='/register' element={<Register />} />
           <Route path='*' element={<p>404: Page not found</p>} />
         </Route>
       </Routes>
