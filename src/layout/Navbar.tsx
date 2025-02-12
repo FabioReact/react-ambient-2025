@@ -55,6 +55,16 @@ const Navbar = () => {
               Profile
             </NavLink>
           </li>
+          <li>
+            <NavLink
+              to='/login'
+              className={({ isActive }) => {
+                return isActive ? 'text-red-600' : '';
+              }}
+            >
+              Login
+            </NavLink>
+          </li>
         </ul>
       </nav>
       <Outlet />

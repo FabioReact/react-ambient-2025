@@ -8,6 +8,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import Profile from './pages/Profile/Profile.tsx';
 import AuthContext from './context/auth-context.ts';
 import { useState } from 'react';
+import Login from './pages/Login/Login.tsx';
 
 const client = new QueryClient();
 
@@ -31,6 +32,7 @@ const App = () => {
               <Route path='/heroes' element={<HeroesList />} />
               <Route path='/battle' element={<Battle />} />
               <Route path='/register' element={<Register />} />
+              <Route path='/login' element={<Login />} />
               <Route path='/profile' element={<Profile />} />
               <Route path='*' element={<p>404: Page not found</p>} />
             </Route>

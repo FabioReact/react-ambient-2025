@@ -1,8 +1,7 @@
-import { useContext } from 'react';
-import AuthContext from '../../context/auth-context';
+import useAuthContext from '../../hooks/useAuthContext';
 
 const Profile = () => {
-  const { accessToken, email, onAuthenticate } = useContext(AuthContext);
+  const { accessToken, email, onAuthenticate } = useAuthContext();
   return (
     <section>
       <h1>Profile</h1>

@@ -6,14 +6,13 @@ import { registerUser } from '../../api/auth';
 import Loader from '../../components/Loader/Loader';
 import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router';
-import { useContext } from 'react';
-import AuthContext from '../../context/auth-context';
+import useAuthContext from '../../hooks/useAuthContext';
 
 type Inputs = z.infer<typeof schema>;
 
 const Register = () => {
   const navigate = useNavigate();
-  const { onAuthenticate } = useContext(AuthContext);
+  const { onAuthenticate } = useAuthContext();
   const { data, isSuccess, isPending, mutateAsync } = useMutation({
     mutationFn: (params: { email: string; password: string }) =>
       registerUser(params.email, params.password),
