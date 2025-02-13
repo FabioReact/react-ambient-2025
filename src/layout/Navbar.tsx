@@ -39,6 +39,16 @@ const Navbar = () => {
           </li>
           <li>
             <NavLink
+              to='/search'
+              className={({ isActive }) => {
+                return isActive ? 'text-red-600' : '';
+              }}
+            >
+              Search
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
               to='/register'
               className={({ isActive }) => {
                 return isActive ? 'text-red-600' : '';

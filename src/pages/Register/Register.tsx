@@ -7,6 +7,7 @@ import Loader from '../../components/Loader/Loader';
 import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router';
 import useAuthContext from '../../hooks/useAuthContext';
+import Waiting from '@/components/Waiting/Waiting';
 
 type Inputs = z.infer<typeof schema>;
 
@@ -57,8 +58,9 @@ const Register = () => {
           )}
         </fieldset>
         <button className='button'>Register</button>
-        {isPending && <Loader />}
-        {isSuccess && <pre>{JSON.stringify(data, null, 2)}</pre>}
+        <Waiting loading={isPending}>
+          <pre>{JSON.stringify(data, null, 2)}</pre>
+        </Waiting>
       </form>
     </section>
   );

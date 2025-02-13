@@ -9,6 +9,7 @@ import Profile from './pages/Profile/Profile.tsx';
 import Login from './pages/Login/Login.tsx';
 import ThemeProvider from './hoc/ThemeProvider.tsx';
 import AuthProvider from './hoc/AuthProvider.tsx';
+import SearchHeroes from './pages/SearchHeroes/SearchHeroes.tsx';
 
 const client = new QueryClient();
 
@@ -23,6 +24,7 @@ const App = () => {
                 <Route path='/' element={<Home />} />
                 <Route path='/heroes' element={<HeroesList />} />
                 <Route path='/battle' element={<Battle />} />
+                <Route path='/search' element={<SearchHeroes />} />
                 <Route path='/register' element={<Register />} />
                 <Route path='/login' element={<Login />} />
                 <Route path='/profile' element={<Profile />} />
