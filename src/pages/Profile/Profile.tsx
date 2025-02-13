@@ -1,6 +1,7 @@
+import Switch from '@/components/Switch';
 import useAuthContext from '@/hooks/useAuthContext';
 import useThemeContext from '@/hooks/useThemeContext';
-import { Switch } from 'antd';
+// import { Switch } from 'antd';
 
 // Mettre en place une section parametres. Cette section doit permettre de choisir entre le mode "light" et le mode "dark"
 // Si le mode dark est choisi, alors la navbar et la page home auront un style particulier
@@ -30,7 +31,7 @@ const Profile = () => {
       <div>
         <h2>Settings</h2>
         <label htmlFor="dark-mode">Dark mode:</label>
-        <Switch id="dark-mode" onChange={onChange} />
+        <Switch id="dark-mode" onSwitch={onChange} defaultValue={true} />
       </div>
     </section>
   );

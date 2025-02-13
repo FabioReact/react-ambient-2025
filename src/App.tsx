@@ -10,31 +10,35 @@ import Login from './pages/Login/Login.tsx';
 import ThemeProvider from './hoc/ThemeProvider.tsx';
 import AuthProvider from './hoc/AuthProvider.tsx';
 import SearchHeroes from './pages/SearchHeroes/SearchHeroes.tsx';
+import { Provider } from 'react-redux';
+import { store } from './redux/store.ts';
 
 const client = new QueryClient();
 
 const App = () => {
   return (
-    <AuthProvider>
-      <ThemeProvider>
-        <QueryClientProvider client={client}>
-          <BrowserRouter>
-            <Routes>
-              <Route element={<Navbar />}>
-                <Route path='/' element={<Home />} />
-                <Route path='/heroes' element={<HeroesList />} />
-                <Route path='/battle' element={<Battle />} />
-                <Route path='/search' element={<SearchHeroes />} />
-                <Route path='/register' element={<Register />} />
-                <Route path='/login' element={<Login />} />
-                <Route path='/profile' element={<Profile />} />
-                <Route path='*' element={<p>404: Page not found</p>} />
-              </Route>
-            </Routes>
-          </BrowserRouter>
-        </QueryClientProvider>
-      </ThemeProvider>
-    </AuthProvider>
+    <Provider store={store} >
+      <AuthProvider>
+        <ThemeProvider>
+          <QueryClientProvider client={client}>
+            <BrowserRouter>
+              <Routes>
+                <Route element={<Navbar />}>
+                  <Route path='/' element={<Home />} />
+                  <Route path='/heroes' element={<HeroesList />} />
+                  <Route path='/battle' element={<Battle />} />
+                  <Route path='/search' element={<SearchHeroes />} />
+                  <Route path='/register' element={<Register />} />
+                  <Route path='/login' element={<Login />} />
+                  <Route path='/profile' element={<Profile />} />
+                  <Route path='*' element={<p>404: Page not found</p>} />
+                </Route>
+              </Routes>
+            </BrowserRouter>
+          </QueryClientProvider>
+        </ThemeProvider>
+      </AuthProvider>
+    </Provider>
   );
 }
 
