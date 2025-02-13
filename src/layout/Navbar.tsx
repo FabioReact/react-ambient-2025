@@ -1,10 +1,11 @@
-import useThemeContext from '@/hooks/useThemeContext';
+import { useAppSelector } from '@/redux/hooks';
 import { NavLink, Outlet } from 'react-router';
 
 const Navbar = () => {
-  const { isDarkMode } = useThemeContext()
+  const isDarkMode = useAppSelector(state => state.theme.isDarkMode)
+
   return (
-    <div className={ isDarkMode ? 'dark' : ''}>
+    <div className={isDarkMode ? 'dark' : ''}>
       <nav className='dark:bg-gray-950 dark:text-white'>
         <ul className='flex justify-center gap-4'>
           <li>
@@ -79,7 +80,7 @@ const Navbar = () => {
           </li>
         </ul>
       </nav>
-      <main className="dark:bg-gray-950 dark:text-white">
+      <main className='dark:bg-gray-950 dark:text-white'>
         <Outlet />
       </main>
     </div>

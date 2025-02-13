@@ -17,7 +17,7 @@ const client = new QueryClient();
 
 const App = () => {
   return (
-    <Provider store={store} >
+    <Provider store={store}>
       <AuthProvider>
         <ThemeProvider>
           <QueryClientProvider client={client}>

@@ -1,6 +1,8 @@
 import Switch from '@/components/Switch';
 import useAuthContext from '@/hooks/useAuthContext';
 import useThemeContext from '@/hooks/useThemeContext';
+import { useAppDispatch, useAppSelector } from '@/redux/hooks';
+import { toggleDarkMode } from '@/redux/reducers/themeSlice';
 // import { Switch } from 'antd';
 
 // Mettre en place une section parametres. Cette section doit permettre de choisir entre le mode "light" et le mode "dark"
@@ -8,11 +10,15 @@ import useThemeContext from '@/hooks/useThemeContext';
 
 const Profile = () => {
   const { accessToken, email, onAuthenticate } = useAuthContext();
-  const { toggleDarkMode } = useThemeContext();
+  // const { toggleDarkMode } = useThemeContext();
+  const isDarkMode = useAppSelector(state => state.theme.isDarkMode);
+  const dispatch = useAppDispatch();
   const onChange = (checked: boolean) => {
     console.log(`switch to ${checked}`);
-    toggleDarkMode(checked);
+    dispatch(toggleDarkMode());
+    // toggleDarkMode(checked);
   };
+
   return (
     <section>
       <h1>Profile</h1>
@@ -31,7 +37,7 @@ const Profile = () => {
       <div>
         <h2>Settings</h2>
         <label htmlFor="dark-mode">Dark mode:</label>
-        <Switch id="dark-mode" onSwitch={onChange} defaultValue={true} />
+        <Switch id="dark-mode" onSwitch={onChange} defaultValue={isDarkMode} />
       </div>
     </section>
   );

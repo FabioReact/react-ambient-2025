@@ -18,7 +18,7 @@ const Register = () => {
     mutationFn: (params: { email: string; password: string }) =>
       registerUser(params.email, params.password),
     onSuccess: (data) => {
-      onAuthenticate(data.accessToken, data.user.email);
+      // onAuthenticate(data.accessToken, data.user.email);
       navigate('/profile');
     },
     onError: () => {
