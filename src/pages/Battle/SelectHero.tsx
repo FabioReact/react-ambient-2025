@@ -2,6 +2,7 @@ import { useState, useRef } from 'react';
 import { getHeroesByName } from '../../api/heroes';
 import { Hero } from '../../types/hero';
 import HeroCard from '../../components/HeroCard';
+import { useLazyGetHeroesByNameQuery } from '@/redux/services/heroes';
 
 type SelectHeroProps = {
   label: string;
@@ -10,13 +11,15 @@ type SelectHeroProps = {
 
 const SelectHero = ({ label, onSelectHero }: SelectHeroProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
-  const [heroes, setHeroes] = useState<Hero[] | null>(null);
+  // const [heroes, setHeroes] = useState<Hero[] | null>(null);
   const [selected, setSelected] = useState<Hero | null>(null);
+  const [getHeroesByName, { isSuccess, data: heroes, isError, error, isFetching, reset }] = useLazyGetHeroesByNameQuery();
+
 
   const onSubmitHanlder = async (event: React.FormEvent) => {
     event.preventDefault();
-    const data = await getHeroesByName(inputRef.current!.value);
-    setHeroes(data);
+    getHeroesByName(inputRef.current!.value);
+    // setHeroes(data);
   };
 
   const onClickHandler = (hero: Hero) => {
@@ -25,7 +28,8 @@ const SelectHero = ({ label, onSelectHero }: SelectHeroProps) => {
   }
 
   const onResetHandler = () => {
-    setHeroes(null);
+    // setHeroes(null);
+    reset();
     setSelected(null);
   };
 

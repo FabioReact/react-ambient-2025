@@ -4,14 +4,9 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { loginUser } from '../../api/auth';
 import Loader from '../../components/Loader/Loader';
-import { useNavigate } from 'react-router';
-import useAuthContext from '../../hooks/useAuthContext';
-// 1. Créér la route, et le lien dans la barre de navigation
-// 2. Valider le formulaire avec zod
-// 3. Utiliser react-hook-form
-// 4. Utiliser react-query pour l'authentification
-// 5. Rediriger vers la page de profil
-// 6. Avoir les infos de l'utilisateur connecté sur la page de profil
+import { useLocation, useNavigate } from 'react-router';
+import { useAppDispatch } from '@/redux/hooks';
+import { onAuthenticate } from '@/redux/reducers/authSlice';
 
 const schema = z.object({
   email: z.string().email('Not a valid email'),
@@ -23,13 +18,18 @@ type Inputs = z.infer<typeof schema>;
 const Login = () => {
   const { register, handleSubmit } = useForm<Inputs>({ resolver: zodResolver(schema) });
   const navigate = useNavigate();
-  const { onAuthenticate } = useAuthContext();
+  const dispatch = useAppDispatch();
+  const location =useLocation();
+  const from = location.state?.from?.pathname || '/profile';
 
   const { mutate, isPending } = useMutation({
     mutationFn: (data: Inputs) => loginUser(data.email, data.password),
     onSuccess: (data) => {
-      onAuthenticate(data.accessToken, data.user.email);
-      navigate('/profile');
+      dispatch(onAuthenticate({
+        accessToken: data.accessToken,
+        email: data.user.email,
+      }));
+      navigate(from, { replace: true });
     },
   });
 

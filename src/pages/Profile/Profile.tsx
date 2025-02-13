@@ -1,6 +1,4 @@
 import Switch from '@/components/Switch';
-import useAuthContext from '@/hooks/useAuthContext';
-import useThemeContext from '@/hooks/useThemeContext';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { toggleDarkMode } from '@/redux/reducers/themeSlice';
 // import { Switch } from 'antd';
@@ -9,27 +7,16 @@ import { toggleDarkMode } from '@/redux/reducers/themeSlice';
 // Si le mode dark est choisi, alors la navbar et la page home auront un style particulier
 
 const Profile = () => {
-  const { accessToken, email, onAuthenticate } = useAuthContext();
-  // const { toggleDarkMode } = useThemeContext();
+  const email = useAppSelector(state => state.auth.email);
   const isDarkMode = useAppSelector(state => state.theme.isDarkMode);
   const dispatch = useAppDispatch();
-  const onChange = (checked: boolean) => {
-    console.log(`switch to ${checked}`);
+  const onChange = () => {
     dispatch(toggleDarkMode());
-    // toggleDarkMode(checked);
   };
 
   return (
     <section>
       <h1>Profile</h1>
-      {/* <AuthContext.Consumer>
-        {(context) => (
-          <>
-            <p>{context.email}</p>
-            <p>{context.accessToken}</p>
-          </>
-        )}
-      </AuthContext.Consumer> */}
       <div>
         <h2>User Info</h2>
         <p>Email: {email}</p>

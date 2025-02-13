@@ -3,22 +3,25 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { schema } from './schema';
 import { registerUser } from '../../api/auth';
-import Loader from '../../components/Loader/Loader';
 import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router';
-import useAuthContext from '../../hooks/useAuthContext';
 import Waiting from '@/components/Waiting/Waiting';
+import { useAppDispatch } from '@/redux/hooks';
+import { onAuthenticate } from '@/redux/reducers/authSlice';
 
 type Inputs = z.infer<typeof schema>;
 
 const Register = () => {
   const navigate = useNavigate();
-  const { onAuthenticate } = useAuthContext();
-  const { data, isSuccess, isPending, mutateAsync } = useMutation({
+  const dispatch = useAppDispatch();
+  const { data, isPending, mutateAsync } = useMutation({
     mutationFn: (params: { email: string; password: string }) =>
       registerUser(params.email, params.password),
     onSuccess: (data) => {
-      // onAuthenticate(data.accessToken, data.user.email);
+      dispatch(onAuthenticate({
+        accessToken: data.accessToken,
+        email: data.user.email
+      }))
       navigate('/profile');
     },
     onError: () => {

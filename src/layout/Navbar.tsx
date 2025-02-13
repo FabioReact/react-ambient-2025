@@ -1,8 +1,11 @@
-import { useAppSelector } from '@/redux/hooks';
+import { useAppDispatch, useAppSelector } from '@/redux/hooks';
+import { onLogout } from '@/redux/reducers/authSlice';
 import { NavLink, Outlet } from 'react-router';
 
 const Navbar = () => {
   const isDarkMode = useAppSelector(state => state.theme.isDarkMode)
+  const connected = useAppSelector(state => state.auth.connected)
+  const dispatch = useAppDispatch()
 
   return (
     <div className={isDarkMode ? 'dark' : ''}>
@@ -48,7 +51,7 @@ const Navbar = () => {
               Search
             </NavLink>
           </li>
-          <li>
+          {!connected && <li>
             <NavLink
               to='/register'
               className={({ isActive }) => {
@@ -57,8 +60,8 @@ const Navbar = () => {
             >
               Register
             </NavLink>
-          </li>
-          <li>
+          </li>}
+          {connected && <li>
             <NavLink
               to='/profile'
               className={({ isActive }) => {
@@ -67,8 +70,8 @@ const Navbar = () => {
             >
               Profile
             </NavLink>
-          </li>
-          <li>
+          </li>}
+          {!connected && <li>
             <NavLink
               to='/login'
               className={({ isActive }) => {
@@ -77,7 +80,10 @@ const Navbar = () => {
             >
               Login
             </NavLink>
-          </li>
+          </li>}
+          {connected && <li>
+            <button onClick={() => dispatch(onLogout())}>Logout</button>
+          </li>}
         </ul>
       </nav>
       <main className='dark:bg-gray-950 dark:text-white'>
